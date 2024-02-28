@@ -59,52 +59,52 @@ class BestSellerBooksFragment : Fragment(), OnListFragmentInteractionListener {
 
         // Using the client, perform the HTTP request
         client[
-                "https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json",
-                params,
-                object : JsonHttpResponseHandler()
-                {
-                    /*
-                     * The onSuccess function gets called when
-                     * HTTP response status is "200 OK"
-                     */
-                    override fun onSuccess(
-                        statusCode: Int,
-                        headers: Headers,
-                        json: JSON
-                    ) {
-                        // The wait for a response is over
-                        progressBar.hide()
+            "https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json",
+            params,
+            object : JsonHttpResponseHandler()
+            {
+                /*
+                 * The onSuccess function gets called when
+                 * HTTP response status is "200 OK"
+                 */
+                override fun onSuccess(
+                    statusCode: Int,
+                    headers: Headers,
+                    json: JSON
+                ) {
+                    // The wait for a response is over
+                    progressBar.hide()
 
-                        val resultsJSON : JSONObject = json.jsonObject.get("results") as JSONObject
-                        val booksRawJSON : String = resultsJSON.get("books").toString()
-                        val gson = Gson()
-                        val arrayTutorialType = object : TypeToken<List<BestSellerBook>>() {}.type
-                        val models : List<BestSellerBook> = gson.fromJson(booksRawJSON, arrayTutorialType)
-                        recyclerView.adapter = BestSellerBooksRecyclerViewAdapter(models, this@BestSellerBooksFragment)
+                    val resultsJSON : JSONObject = json.jsonObject.get("results") as JSONObject
+                    val booksRawJSON : String = resultsJSON.get("books").toString()
+                    val gson = Gson()
+                    val arrayTutorialType = object : TypeToken<List<BestSellerBook>>() {}.type
+                    val models : List<BestSellerBook> = gson.fromJson(booksRawJSON, arrayTutorialType)
+                    recyclerView.adapter = BestSellerBooksRecyclerViewAdapter(models, this@BestSellerBooksFragment)
 
-                        // Look for this in Logcat:
-                        Log.d("BestSellerBooksFragment", "response successful")
+                    // Look for this in Logcat:
+                    Log.d("BestSellerBooksFragment", "response successful")
+                }
+
+                /*
+                 * The onFailure function gets called when
+                 * HTTP response status is "4XX" (eg. 401, 403, 404)
+                 */
+                override fun onFailure(
+                    statusCode: Int,
+                    headers: Headers?,
+                    errorResponse: String,
+                    t: Throwable?
+                ) {
+                    // The wait for a response is over
+                    progressBar.hide()
+
+                    // If the error is not null, log it!
+                    t?.message?.let {
+                        Log.e("BestSellerBooksFragment", errorResponse)
                     }
-
-                    /*
-                     * The onFailure function gets called when
-                     * HTTP response status is "4XX" (eg. 401, 403, 404)
-                     */
-                    override fun onFailure(
-                        statusCode: Int,
-                        headers: Headers?,
-                        errorResponse: String,
-                        t: Throwable?
-                    ) {
-                        // The wait for a response is over
-                        progressBar.hide()
-
-                        // If the error is not null, log it!
-                        t?.message?.let {
-                            Log.e("BestSellerBooksFragment", errorResponse)
-                        }
-                    }
-                }]
+                }
+            }]
     }
 
     /*

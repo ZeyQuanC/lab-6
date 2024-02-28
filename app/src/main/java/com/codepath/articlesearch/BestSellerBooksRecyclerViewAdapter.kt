@@ -1,3 +1,4 @@
+
 package com.codepath.articlesearch
 
 import android.view.LayoutInflater

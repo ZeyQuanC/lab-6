@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_bestselling_books"
+        android:title="@string/bestselling_books"
+        android:icon="@drawable/baseline_menu_book_24" />
+    <item
+        android:id="@+id/menu_article_search"
+        android:title="@string/article_search"
+        android:icon="@drawable/baseline_article_24" />
+</menu>
